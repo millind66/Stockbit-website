@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package proto;
+
+import "data.proto";
+
+service Stockbit {
+    rpc SearchMovie(SearchRequest) returns (SearchResponse){}
+    rpc GetMovie(GetRequest) returns (GetResponse){}
+}
