@@ -1,0 +1,86 @@
+Soal 1
+===========================================================================================
+SELECT u1.ID, u1.UserName, u2.UserName AS ParentUserName FROM USER u1
+LEFT JOIN USER u2 ON u1.Parent = u2.ID
+ORDER BY u1.ID;
+
+Soal 3
+===========================================================================================
+func findFirstStringInBracket(str string) string {
+	if len(str) > 0 {
+		indexFirstBracketFound := strings.Index(str, "(")
+		if indexFirstBracketFound >= 0 {
+			runes := []rune(str)
+			wordsAfterFirstBracket := string(runes[indexFirstBracketFound:len(str)])
+			indexClosingBracketFound := strings.Index(wordsAfterFirstBracket, ")")
+			if indexClosingBracketFound >= 0 {
+				runes := []rune(wordsAfterFirstBracket)
+				return string(runes[1 : indexClosingBracketFound-1])
+			}
+			return ""
+		}
+		return ""
+	}
+	return ""
+}
+
+Soal 4
+===========================================================================================
+package main
+
+import (
+	"log"
+	"sort"
+)
+
+func main() {
+	input := []string{"kita", "atik", "tika", "aku", "kia", "makan", "kua"}
+
+	output := groupByAnagram(input)
+	log.Println("Output:", output)
+}
+
+func groupByAnagram(input []string) [][]string {
+	// create map to group string by its sorted version
+	// anagram words have the same sorted version
+	temp := map[string][]string{}
+
+	// interate over the input array
+	for _, in := range input {
+		// get the sorted string
+		sorted := sortChars(in)
+
+		// check if already exist in map
+		arr, ok := temp[sorted]
+		if !ok {
+			// if not exist, then add to map
+			temp[sorted] = []string{in}
+			continue
+		}
+		// if exist, then append to the array and update the map
+		arr = append(arr, in)
+		temp[sorted] = arr
+	}
+
+	// convert map to array
+	output := [][]string{}
+	for _, v := range temp {
+		output = append(output, v)
+	}
+
+	// return array of grouped string
+	return output
+}
+
+func sortChars(str string) string {
+	// parse string to array of characters
+	runes := []rune(str)
+
+	// sort the array, ascending
+	sort.Slice(runes, func(i, j int) bool {
+		return runes[i] < runes[j]
+	})
+
+	// return the sorted array
+	return string(runes)
+}
